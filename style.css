@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════
-   CLIP — audio social webapp
+   Clipp — audio social webapp
    Design: dark industrial, monospace accents,
    raw waveform energy. Jet black + electric amber.
 ══════════════════════════════════════════ */
@@ -836,7 +836,7 @@ kbd {
 .post-action-btn.liking { opacity: 0.5; }
 
 /* ══════════════════════════════════════
-   MY CLIPS
+   MY ClippS
 ══════════════════════════════════════ */
 .my-post-row {
   display: flex; align-items: center; gap: 14px;

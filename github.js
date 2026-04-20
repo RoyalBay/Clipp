@@ -14,7 +14,7 @@
 //  but only writable with the token.
 //
 //  SETUP REQUIRED (done once in Settings):
-//  - Repo: "username/reponame" e.g. "alice/clip-app"
+//  - Repo: "username/reponame" e.g. "RoyalBay/Clipp"
 //  - Token: a GitHub PAT with "repo" scope
 //  Both are stored in localStorage only.
 // ══════════════════════════════════════════
@@ -25,7 +25,7 @@ const GitHub = (() => {
 
   // ── Get stored config ──────────────────
   function getConfig() {
-    const raw = localStorage.getItem('clip_github');
+    const raw = localStorage.getItem('Clipp_github');
     if (!raw) return null;
     try { return JSON.parse(raw); }
     catch { return null; }
@@ -91,7 +91,7 @@ const GitHub = (() => {
 
     const url = `${BASE}/repos/${c.repo}/contents/${path}`;
     const body = {
-      message: message || `clip: update ${path}`,
+      message: message || `Clipp: update ${path}`,
       content: toBase64(content)
     };
     if (sha) body.sha = sha; // Required for updates
@@ -129,7 +129,7 @@ const GitHub = (() => {
 
     const url = `${BASE}/repos/${c.repo}/contents/${path}`;
     const body = {
-      message: message || `clip: upload audio ${path}`,
+      message: message || `Clipp: upload audio ${path}`,
       content: b64
     };
 

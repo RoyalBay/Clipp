@@ -1,5 +1,5 @@
 // ══════════════════════════════════════════
-//  CLIP — app.js
+//  Clipp — app.js
 //  Step 1: Account creation + Siri setup
 //
 //  What this file does:
@@ -171,7 +171,7 @@ function createAccount() {
   };
 
   // Save to localStorage (persists across page closes)
-  localStorage.setItem('clip_account', JSON.stringify(account));
+  localStorage.setItem('Clipp_account', JSON.stringify(account));
 
   // Show confirm screen with the details
   document.getElementById('confirm-username').textContent = '@' + username;
@@ -189,7 +189,7 @@ function createAccount() {
 // ─────────────────────────────────────────
 
 function checkExistingAccount() {
-  const raw = localStorage.getItem('clip_account');
+  const raw = localStorage.getItem('Clipp_account');
   if (!raw) return; // No account → stay on splash
 
   try {
@@ -202,7 +202,7 @@ function checkExistingAccount() {
     }
   } catch (e) {
     // Corrupted data — clear it and start fresh
-    localStorage.removeItem('clip_account');
+    localStorage.removeItem('Clipp_account');
   }
 }
 
@@ -215,7 +215,7 @@ function checkExistingAccount() {
 
 function loadMainApp(account) {
   if (!account) {
-    const raw = localStorage.getItem('clip_account');
+    const raw = localStorage.getItem('Clipp_account');
     if (!raw) return;
     account = JSON.parse(raw);
   }
@@ -265,7 +265,7 @@ function loadMainApp(account) {
 // ─────────────────────────────────────────
 
 function saveSettings() {
-  const raw = localStorage.getItem('clip_account');
+  const raw = localStorage.getItem('Clipp_account');
   if (!raw) return;
 
   const account = JSON.parse(raw);
@@ -277,7 +277,7 @@ function saveSettings() {
     voiceCommands: voiceToggle ? voiceToggle.checked : true
   };
 
-  localStorage.setItem('clip_account', JSON.stringify(account));
+  localStorage.setItem('Clipp_account', JSON.stringify(account));
 }
 
 
@@ -305,7 +305,7 @@ function loginAccount() {
   const msg = document.getElementById('login-msg');
   const username = input.value.trim().toLowerCase();
 
-  const raw = localStorage.getItem('clip_account');
+  const raw = localStorage.getItem('Clipp_account');
   if (!raw) {
     msg.textContent = 'no account found — try creating one';
     return;
@@ -328,8 +328,8 @@ function loginAccount() {
 // ─────────────────────────────────────────
 
 function signOut() {
-  if (confirm('sign out? your clips and data stay saved.')) {
-    localStorage.removeItem('clip_account');
+  if (confirm('sign out? your Clipps and data stay saved.')) {
+    localStorage.removeItem('Clipp_account');
     // Reset the pending ID so a fresh one is generated
     pendingUserId = generateUserId();
     // Clear the username input for a clean state
@@ -391,7 +391,7 @@ async function saveGitHubConfig() {
     return;
   }
 
-  localStorage.setItem('clip_github', JSON.stringify({ repo, token }));
+  localStorage.setItem('Clipp_github', JSON.stringify({ repo, token }));
   if (statusEl) { statusEl.textContent = 'testing…'; statusEl.style.color = 'var(--text2)'; }
 
   const result = await GitHub.testConnection();
@@ -407,7 +407,7 @@ async function saveGitHubConfig() {
 // 15. LOAD GITHUB CONFIG into settings fields
 // ─────────────────────────────────────────
 function loadGitHubConfig() {
-  const raw = localStorage.getItem('clip_github');
+  const raw = localStorage.getItem('Clipp_github');
   if (!raw) return;
   try {
     const c = JSON.parse(raw);
@@ -422,13 +422,13 @@ function loadGitHubConfig() {
 
 // ─────────────────────────────────────────
 // 16. HASH-BASED DEEP LINK
-//     "Hey Siri, clip it" opens the URL with
+//     "Hey Siri, Clipp it" opens the URL with
 //     #record at the end. We detect that and
 //     jump straight to the record screen.
 // ─────────────────────────────────────────
 function checkHashDeepLink() {
   if (window.location.hash === '#record') {
-    const raw = localStorage.getItem('clip_account');
+    const raw = localStorage.getItem('Clipp_account');
     if (raw) {
       const account = JSON.parse(raw);
       loadMainApp(account);

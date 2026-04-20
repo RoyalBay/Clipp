@@ -1,5 +1,5 @@
 // ══════════════════════════════════════════
-//  myposts.js — "My Clips" tab
+//  myposts.js — "My Clipps" tab
 //
 //  Shows the logged-in user's own posts.
 //  Data comes from localStorage (written
@@ -13,8 +13,8 @@ const MyPosts = (() => {
     const container = document.getElementById('my-posts-list');
     if (!container) return;
 
-    const account = JSON.parse(localStorage.getItem('clip_account') || '{}');
-    const allPosts = JSON.parse(localStorage.getItem('clip_posts') || '[]');
+    const account = JSON.parse(localStorage.getItem('Clipp_account') || '{}');
+    const allPosts = JSON.parse(localStorage.getItem('Clipp_posts') || '[]');
     const mine = allPosts.filter(p => p.userId === account.userId);
 
     container.innerHTML = '';
@@ -23,7 +23,7 @@ const MyPosts = (() => {
       container.innerHTML = `
         <div class="empty-state">
           <span class="empty-icon">🎙</span>
-          <p>no clips yet<br/>press <strong>record</strong> to make your first one</p>
+          <p>no Clipps yet<br/>press <strong>record</strong> to make your first one</p>
         </div>`;
       return;
     }
@@ -61,7 +61,7 @@ const MyPosts = (() => {
     }
     const url = GitHub.rawUrl(`content/${userId}.${postIndex}.webm`);
     const audio = new Audio(url);
-    const account = JSON.parse(localStorage.getItem('clip_account') || '{}');
+    const account = JSON.parse(localStorage.getItem('Clipp_account') || '{}');
     audio.playbackRate = account.settings?.playbackSpeed || 1;
     audio.play().catch(e => alert('playback failed: ' + e.message));
   }

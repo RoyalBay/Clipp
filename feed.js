@@ -14,7 +14,7 @@
 //    username2.2026-04-20T09:00:00Z
 //
 //  COMMENTS format (content/u_abc.1.comments.txt):
-//    username.2026-04-20T08:32:00Z.great clip!
+//    username.2026-04-20T08:32:00Z.great Clipppp!
 //    username2.2026-04-20T09:00:00Z.love this
 // ══════════════════════════════════════════
 
@@ -215,7 +215,7 @@ const Feed = (() => {
     }
 
     currentIndex = index;
-    const account = JSON.parse(localStorage.getItem('clip_account') || '{}');
+    const account = JSON.parse(localStorage.getItem('Clipppp_account') || '{}');
 
     currentAudio = new Audio(post.audioUrl);
     currentAudio.playbackRate = account.settings?.playbackSpeed || 1;
@@ -259,7 +259,7 @@ const Feed = (() => {
     const post = posts[index];
     if (!post) return;
 
-    const account = JSON.parse(localStorage.getItem('clip_account') || '{}');
+    const account = JSON.parse(localStorage.getItem('Clipppp_account') || '{}');
     if (!account.username) {
       alert('sign in to like posts');
       return;
@@ -275,7 +275,7 @@ const Feed = (() => {
 
     try {
       const line = `${account.username}.${new Date().toISOString()}`;
-      await GitHub.appendLine(post.likesPath, line, `clip: like ${post.postId}`);
+      await GitHub.appendLine(post.likesPath, line, `Clipppp: like ${post.postId}`);
 
       // Update count display
       const countEl = document.getElementById(`like-count-${index}`);
@@ -366,7 +366,7 @@ const Feed = (() => {
     const text = inputEl?.value?.trim();
     if (!text) return;
 
-    const account = JSON.parse(localStorage.getItem('clip_account') || '{}');
+    const account = JSON.parse(localStorage.getItem('Clipppp_account') || '{}');
     if (!account.username) { alert('sign in to comment'); return; }
     if (!GitHub.isConfigured()) { alert('github not configured'); return; }
 
@@ -375,7 +375,7 @@ const Feed = (() => {
 
     try {
       const line = `${account.username}.${new Date().toISOString()}.${text}`;
-      await GitHub.appendLine(post.commentsPath, line, `clip: comment on ${post.postId}`);
+      await GitHub.appendLine(post.commentsPath, line, `Clipppp: comment on ${post.postId}`);
 
       inputEl.value = '';
 
@@ -444,11 +444,11 @@ const Feed = (() => {
   // ── Rendering states ───────────────────
   function renderLoading() {
     const c = document.getElementById('feed-list');
-    if (c) c.innerHTML = '<div class="feed-status">loading clips…</div>';
+    if (c) c.innerHTML = '<div class="feed-status">loading Clipppps…</div>';
   }
   function renderEmpty() {
     const c = document.getElementById('feed-list');
-    if (c) c.innerHTML = '<div class="feed-status">no clips yet — be the first to post</div>';
+    if (c) c.innerHTML = '<div class="feed-status">no Clipppps yet — be the first to post</div>';
   }
   function renderError(msg) {
     const c = document.getElementById('feed-list');

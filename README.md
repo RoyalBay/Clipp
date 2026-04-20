@@ -1,4 +1,4 @@
-# CLIP — audio social
+# Clipp — audio social
 
 A static, audio-first social web app. Hosted on GitHub Pages. Posts, likes, and comments are stored as plain files directly in this repo.
 
@@ -11,7 +11,7 @@ Go to https://github.com and sign up.
 
 ### 2. Create a new public repo
 - Go to https://github.com/new
-- Name it something like `clip-app`
+- Name it something like `Clipp-app`
 - Set it to **Public** (required for GitHub Pages + reading posts without auth)
 - Click **Create repository**
 
@@ -26,7 +26,7 @@ Go to https://github.com and sign up.
 - Branch: `main`, folder: `/ (root)`
 - Click **Save**
 - Wait ~60 seconds, then your app is live at:
-  `https://YOUR-USERNAME.github.io/clip-app/`
+  `https://YOUR-USERNAME.github.io/Clipp-app/`
 
 ### 5. Create a content folder
 GitHub requires at least one file in a folder to create it. Either:
@@ -34,18 +34,18 @@ GitHub requires at least one file in a folder to create it. Either:
 
 ### 6. Create a Personal Access Token
 - Go to https://github.com/settings/tokens/new
-- Name: `CLIP app`
+- Name: `Clipp app`
 - Scopes: check **repo** (full repo access)
 - Click **Generate token**
 - **Copy the token immediately** — you won't see it again
-- Paste it into CLIP's Settings → GitHub Backend
+- Paste it into Clipp's Settings → GitHub Backend
 
 ---
 
 ## File structure
 
 ```
-clip-app/
+Clipp-app/
 ├── index.html
 ├── style.css
 ├── app.js
@@ -81,7 +81,7 @@ carol.2026-04-20T10:15:00Z
 
 ### Comments format (`.comments.txt`)
 ```
-bob.2026-04-20T09:01:00Z.loved this clip
+bob.2026-04-20T09:01:00Z.loved this Clipp
 carol.2026-04-20T10:16:00Z.so true
 ```
 
@@ -93,16 +93,16 @@ carol.2026-04-20T10:16:00Z.so true
 |-----|--------|
 | Space | start recording / stop recording |
 | P | confirm and post |
-| D | discard clip |
+| D | discard Clipp |
 | Hold Space | pause/resume review playback |
 
 ---
 
-## "Hey Siri, clip it" setup
+## "Hey Siri, Clipp it" setup
 
 Once deployed, create a Shortcut on iPhone:
 1. Open **Shortcuts** app
 2. New shortcut → Add Action → **Open URLs**
-3. URL: `https://YOUR-USERNAME.github.io/clip-app/#record`
-4. Rename to **"clip it"** → Done
-5. Say "Hey Siri, clip it" to jump straight to recording
+3. URL: `https://YOUR-USERNAME.github.io/Clipp-app/#record`
+4. Rename to **"Clipp it"** → Done
+5. Say "Hey Siri, Clipp it" to jump straight to recording

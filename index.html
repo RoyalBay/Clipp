@@ -6,7 +6,7 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
   <meta name="theme-color" content="#0a0a0a" />
-  <title>CLIP — audio social</title>
+  <title>Clipp — audio social</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
@@ -25,7 +25,7 @@
             stroke="var(--accent)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
         </svg>
       </div>
-      <h1 class="app-name">CLIP</h1>
+      <h1 class="app-name">Clipp</h1>
       <p class="app-tagline">audio-first social.<br/>no screen required.</p>
       <button class="btn-primary" onclick="goTo('screen-create')">get started</button>
       <button class="btn-ghost" onclick="goTo('screen-login')">i already have an account</button>
@@ -86,13 +86,13 @@
       </div>
       <div class="siri-step-icon">🎙</div>
       <h2 class="screen-title">shortcut 1 of 1</h2>
-      <p class="screen-sub big"><strong>"Hey Siri, clip it"</strong></p>
-      <p class="screen-sub">opens CLIP and jumps straight to record.</p>
+      <p class="screen-sub big"><strong>"Hey Siri, Clipp it"</strong></p>
+      <p class="screen-sub">opens Clipp and jumps straight to record.</p>
       <div class="instruction-card">
         <div class="instruction-step"><span class="step-num">1</span><span>Open the <strong>Shortcuts</strong> app on your iPhone</span></div>
         <div class="instruction-step"><span class="step-num">2</span><span>Tap <strong>+</strong> → <strong>Add Action</strong> → search <strong>"Open URLs"</strong></span></div>
         <div class="instruction-step"><span class="step-num">3</span><span>Enter your app URL + <code class="inline-code">#record</code> at the end</span></div>
-        <div class="instruction-step"><span class="step-num">4</span><span>Rename shortcut to <strong>"clip it"</strong> → tap <strong>Done</strong></span></div>
+        <div class="instruction-step"><span class="step-num">4</span><span>Rename shortcut to <strong>"Clipp it"</strong> → tap <strong>Done</strong></span></div>
       </div>
       <button class="btn-primary" onclick="goTo('screen-siri-done')">done →</button>
       <button class="btn-ghost" onclick="goTo('screen-siri-done')">skip</button>
@@ -104,15 +104,15 @@
     <div class="screen-inner center">
       <div class="siri-done-icon">✦</div>
       <h2 class="screen-title">all set up.</h2>
-      <p class="screen-sub">say <strong>"Hey Siri, clip it"</strong> any time to record hands-free.</p>
+      <p class="screen-sub">say <strong>"Hey Siri, Clipp it"</strong> any time to record hands-free.</p>
       <div class="controls-cheatsheet">
         <div class="cheat-title">controls — airpods + keyboard</div>
         <div class="cheat-row"><span class="cheat-action">1 click / Space</span><span class="cheat-desc">start · stop recording</span></div>
         <div class="cheat-row"><span class="cheat-action">3 rapid / P key</span><span class="cheat-desc">confirm &amp; post</span></div>
         <div class="cheat-row"><span class="cheat-action">long press / hold Space</span><span class="cheat-desc">pause / resume review</span></div>
-        <div class="cheat-row"><span class="cheat-action">D key</span><span class="cheat-desc">discard clip</span></div>
+        <div class="cheat-row"><span class="cheat-action">D key</span><span class="cheat-desc">discard Clipp</span></div>
       </div>
-      <button class="btn-primary" onclick="finishSetup()">enter clip →</button>
+      <button class="btn-primary" onclick="finishSetup()">enter Clipp →</button>
     </div>
   </div>
 
@@ -173,7 +173,7 @@
       <div id="rec-panel-reviewing" class="hidden">
         <p class="screen-sub center-text">reviewing — title it, then post or discard</p>
         <div class="input-wrap" style="margin-top:12px">
-          <input type="text" id="rec-post-title" class="text-input" placeholder="clip title…"
+          <input type="text" id="rec-post-title" class="text-input" placeholder="Clipp title…"
             style="font-size:18px" maxlength="60"/>
         </div>
         <div class="input-wrap" style="margin-top:8px">
@@ -210,8 +210,8 @@
   <!-- MAIN APP -->
   <div id="screen-main" class="screen">
     <div class="topbar">
-      <span class="topbar-logo">CLIP</span>
-      <button class="topbar-record-btn" onclick="openRecord()" title="record a clip">
+      <span class="topbar-logo">Clipp</span>
+      <button class="topbar-record-btn" onclick="openRecord()" title="record a Clipp">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <circle cx="12" cy="12" r="4" fill="currentColor"/>
         </svg>
@@ -231,12 +231,12 @@
           </svg>
         </button>
       </div>
-      <div id="feed-list"><div class="feed-status">loading clips…</div></div>
+      <div id="feed-list"><div class="feed-status">loading Clipps…</div></div>
     </div>
 
-    <!-- my clips -->
+    <!-- my Clipps -->
     <div class="tab-content hidden" id="tab-posts">
-      <div class="section-header">my clips</div>
+      <div class="section-header">my Clipps</div>
       <div id="my-posts-list"></div>
     </div>
 
@@ -259,10 +259,10 @@
 
         <div class="settings-divider"></div>
         <div class="settings-section-title">github backend</div>
-        <p class="settings-hint">CLIP saves posts as files in a GitHub repo. you need a <strong>public</strong> repo and a token.</p>
+        <p class="settings-hint">Clipp saves posts as files in a GitHub repo. you need a <strong>public</strong> repo and a token.</p>
 
         <div class="settings-row col">
-          <span class="settings-label">repo <span class="settings-hint-inline">e.g. alice/clip-app</span></span>
+          <span class="settings-label">repo <span class="settings-hint-inline">e.g. alice/Clipp-app</span></span>
           <input type="text" id="gh-repo" class="settings-input" placeholder="username/repo-name"
             autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
         </div>
@@ -275,7 +275,7 @@
           <button class="btn-sm" onclick="saveGitHubConfig()">save &amp; test</button>
         </div>
         <p class="settings-hint">
-          <a href="https://github.com/settings/tokens/new?scopes=repo&description=CLIP+app"
+          <a href="https://github.com/settings/tokens/new?scopes=repo&description=Clipp+app"
             target="_blank" class="settings-link">create a github token →</a>
           &nbsp;·&nbsp;
           <a href="https://github.com/new" target="_blank" class="settings-link">create a repo →</a>
@@ -317,7 +317,7 @@
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M9 19V6l12-3v13M9 19c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2zm12-3c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2z"/>
         </svg>
-        <span>my clips</span>
+        <span>my Clipps</span>
       </button>
       <button class="nav-btn" onclick="switchTab('settings', this)">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
