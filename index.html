@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <title>CLIP — audio social</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="grain"></div>
+
+  <!-- SPLASH -->
+  <div id="screen-splash" class="screen active">
+    <div class="splash-inner">
+      <div class="logo-mark">
+        <svg viewBox="0 0 80 40" fill="none">
+          <path d="M0 20 Q10 4 20 20 Q30 36 40 20 Q50 4 60 20 Q70 36 80 20"
+            stroke="var(--accent)" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <h1 class="app-name">CLIP</h1>
+      <p class="app-tagline">audio-first social.<br/>no screen required.</p>
+      <button class="btn-primary" onclick="goTo('screen-create')">get started</button>
+      <button class="btn-ghost" onclick="goTo('screen-login')">i already have an account</button>
+    </div>
+  </div>
+
+  <!-- ACCOUNT CREATION -->
+  <div id="screen-create" class="screen">
+    <div class="screen-inner">
+      <button class="back-btn" onclick="goTo('screen-splash')">← back</button>
+      <div class="step-label">step 1 of 2</div>
+      <h2 class="screen-title">pick your<br/><em>username</em></h2>
+      <p class="screen-sub">lowercase letters, numbers, underscores only.</p>
+      <div class="input-wrap" id="username-wrap">
+        <span class="input-prefix">@</span>
+        <input type="text" id="username-input" class="text-input" placeholder="yourname"
+          maxlength="20" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+        <span class="input-status" id="username-status"></span>
+      </div>
+      <div class="validation-msg" id="validation-msg"></div>
+      <div class="userid-preview" id="userid-preview">
+        <span class="userid-label">your user id will be</span>
+        <span class="userid-value" id="userid-value">—</span>
+        <span class="userid-note">auto-generated · permanent · can't be changed</span>
+      </div>
+      <button class="btn-primary" id="create-btn" disabled onclick="createAccount()">create account →</button>
+    </div>
+  </div>
+
+  <!-- ACCOUNT CONFIRMED -->
+  <div id="screen-confirm" class="screen">
+    <div class="screen-inner center">
+      <div class="success-ring">
+        <svg viewBox="0 0 60 60" fill="none">
+          <circle cx="30" cy="30" r="27" stroke="var(--accent)" stroke-width="2"/>
+          <path d="M18 30 L26 38 L42 22" stroke="var(--accent)" stroke-width="2.5"
+            stroke-linecap="round" stroke-linejoin="round" class="check-path"/>
+        </svg>
+      </div>
+      <h2 class="screen-title">you're in,<br/><em id="confirm-username">@username</em></h2>
+      <div class="id-card">
+        <span class="id-card-label">your permanent user id</span>
+        <span class="id-card-value" id="confirm-userid">u_xxxxxx</span>
+      </div>
+      <p class="screen-sub">next: set up your Siri shortcut for hands-free recording.</p>
+      <button class="btn-primary" onclick="goTo('screen-siri-1')">set up siri shortcut →</button>
+      <button class="btn-ghost" onclick="goTo('screen-main')">skip for now</button>
+    </div>
+  </div>
+
+  <!-- SIRI SETUP -->
+  <div id="screen-siri-1" class="screen">
+    <div class="screen-inner">
+      <div class="siri-progress">
+        <div class="siri-pip active"></div>
+        <div class="siri-pip"></div>
+        <div class="siri-pip"></div>
+      </div>
+      <div class="siri-step-icon">🎙</div>
+      <h2 class="screen-title">shortcut 1 of 1</h2>
+      <p class="screen-sub big"><strong>"Hey Siri, clip it"</strong></p>
+      <p class="screen-sub">opens CLIP and jumps straight to record.</p>
+      <div class="instruction-card">
+        <div class="instruction-step"><span class="step-num">1</span><span>Open the <strong>Shortcuts</strong> app on your iPhone</span></div>
+        <div class="instruction-step"><span class="step-num">2</span><span>Tap <strong>+</strong> → <strong>Add Action</strong> → search <strong>"Open URLs"</strong></span></div>
+        <div class="instruction-step"><span class="step-num">3</span><span>Enter your app URL + <code class="inline-code">#record</code> at the end</span></div>
+        <div class="instruction-step"><span class="step-num">4</span><span>Rename shortcut to <strong>"clip it"</strong> → tap <strong>Done</strong></span></div>
+      </div>
+      <button class="btn-primary" onclick="goTo('screen-siri-done')">done →</button>
+      <button class="btn-ghost" onclick="goTo('screen-siri-done')">skip</button>
+    </div>
+  </div>
+
+  <!-- SIRI DONE -->
+  <div id="screen-siri-done" class="screen">
+    <div class="screen-inner center">
+      <div class="siri-done-icon">✦</div>
+      <h2 class="screen-title">all set up.</h2>
+      <p class="screen-sub">say <strong>"Hey Siri, clip it"</strong> any time to record hands-free.</p>
+      <div class="controls-cheatsheet">
+        <div class="cheat-title">controls — airpods + keyboard</div>
+        <div class="cheat-row"><span class="cheat-action">1 click / Space</span><span class="cheat-desc">start · stop recording</span></div>
+        <div class="cheat-row"><span class="cheat-action">3 rapid / P key</span><span class="cheat-desc">confirm &amp; post</span></div>
+        <div class="cheat-row"><span class="cheat-action">long press / hold Space</span><span class="cheat-desc">pause / resume review</span></div>
+        <div class="cheat-row"><span class="cheat-action">D key</span><span class="cheat-desc">discard clip</span></div>
+      </div>
+      <button class="btn-primary" onclick="finishSetup()">enter clip →</button>
+    </div>
+  </div>
+
+  <!-- LOGIN -->
+  <div id="screen-login" class="screen">
+    <div class="screen-inner">
+      <button class="back-btn" onclick="goTo('screen-splash')">← back</button>
+      <h2 class="screen-title">welcome<br/><em>back</em></h2>
+      <div class="input-wrap">
+        <span class="input-prefix">@</span>
+        <input type="text" id="login-username" class="text-input" placeholder="yourname"
+          autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+      </div>
+      <div class="validation-msg" id="login-msg"></div>
+      <button class="btn-primary" onclick="loginAccount()">sign in →</button>
+    </div>
+  </div>
+
+  <!-- RECORD SCREEN -->
+  <div id="screen-record" class="screen">
+    <div class="screen-inner">
+      <button class="back-btn" onclick="recBack()">← back</button>
+
+      <div class="rec-state-label state-idle" id="rec-state-label">● ready</div>
+      <div class="rec-timer" id="rec-timer">00:00</div>
+
+      <div class="rec-waveform" id="rec-waveform">
+        <div class="rec-bar"></div><div class="rec-bar"></div><div class="rec-bar"></div>
+        <div class="rec-bar"></div><div class="rec-bar"></div><div class="rec-bar"></div>
+        <div class="rec-bar"></div><div class="rec-bar"></div><div class="rec-bar"></div>
+        <div class="rec-bar"></div><div class="rec-bar"></div><div class="rec-bar"></div>
+        <div class="rec-bar"></div><div class="rec-bar"></div><div class="rec-bar"></div>
+        <div class="rec-bar"></div>
+      </div>
+
+      <!-- idle -->
+      <div id="rec-panel-idle">
+        <p class="screen-sub center-text">press the button or <kbd>Space</kbd> to start</p>
+        <button class="rec-big-btn" onclick="Recorder.startRecording()">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3z"/>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v3M8 22h8"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- recording -->
+      <div id="rec-panel-recording" class="hidden">
+        <p class="screen-sub center-text">recording… <kbd>Space</kbd> or 1 AirPod click to stop</p>
+        <button class="rec-big-btn recording-pulse" onclick="Recorder.stopRecording()">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <rect x="6" y="6" width="12" height="12" rx="2"/>
+          </svg>
+        </button>
+      </div>
+
+      <!-- reviewing -->
+      <div id="rec-panel-reviewing" class="hidden">
+        <p class="screen-sub center-text">reviewing — title it, then post or discard</p>
+        <div class="input-wrap" style="margin-top:12px">
+          <input type="text" id="rec-post-title" class="text-input" placeholder="clip title…"
+            style="font-size:18px" maxlength="60"/>
+        </div>
+        <div class="input-wrap" style="margin-top:8px">
+          <span style="color:var(--accent);font-size:16px;padding:0 6px">#</span>
+          <input type="text" id="rec-post-hashtags" class="text-input"
+            placeholder="hashtags (optional)" style="font-size:15px" maxlength="100"/>
+        </div>
+        <div class="rec-review-actions">
+          <button class="btn-danger" style="flex:1" onclick="Recorder.discard()">discard (D)</button>
+          <button class="btn-primary" style="flex:2" onclick="Recorder.post()">post (P)</button>
+        </div>
+      </div>
+
+      <!-- posting -->
+      <div id="rec-panel-posting" class="hidden">
+        <div class="posting-spinner">
+          <svg viewBox="0 0 24 24" fill="none" stroke="var(--accent)" stroke-width="2">
+            <path d="M21 12a9 9 0 1 1-6.219-8.56" stroke-linecap="round">
+              <animateTransform attributeName="transform" type="rotate"
+                from="0 12 12" to="360 12 12" dur="1s" repeatCount="indefinite"/>
+            </path>
+          </svg>
+        </div>
+        <p class="screen-sub center-text">uploading to github…</p>
+      </div>
+
+      <div class="rec-status-msg status-info" id="rec-status-msg"></div>
+      <div class="rec-kb-hint">
+        keyboard: <kbd>Space</kbd> start/stop · <kbd>P</kbd> post · <kbd>D</kbd> discard
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN APP -->
+  <div id="screen-main" class="screen">
+    <div class="topbar">
+      <span class="topbar-logo">CLIP</span>
+      <button class="topbar-record-btn" onclick="openRecord()" title="record a clip">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="4" fill="currentColor"/>
+        </svg>
+        rec
+      </button>
+      <span class="topbar-user" id="topbar-username">@—</span>
+    </div>
+
+    <!-- feed -->
+    <div class="tab-content" id="tab-feed">
+      <div class="feed-header">
+        <span class="section-header" style="padding:0">feed</span>
+        <button class="refresh-btn" onclick="Feed.load()" title="refresh">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M23 4v6h-6M1 20v-6h6"/>
+            <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+          </svg>
+        </button>
+      </div>
+      <div id="feed-list"><div class="feed-status">loading clips…</div></div>
+    </div>
+
+    <!-- my clips -->
+    <div class="tab-content hidden" id="tab-posts">
+      <div class="section-header">my clips</div>
+      <div id="my-posts-list"></div>
+    </div>
+
+    <!-- settings -->
+    <div class="tab-content hidden" id="tab-settings">
+      <div class="section-header">settings</div>
+      <div class="settings-list">
+        <div class="settings-row">
+          <span class="settings-label">username</span>
+          <span class="settings-value" id="settings-username">@—</span>
+        </div>
+        <div class="settings-row">
+          <span class="settings-label">user id</span>
+          <span class="settings-value mono" id="settings-userid">—</span>
+        </div>
+        <div class="settings-row">
+          <span class="settings-label">joined</span>
+          <span class="settings-value" id="settings-joined">—</span>
+        </div>
+
+        <div class="settings-divider"></div>
+        <div class="settings-section-title">github backend</div>
+        <p class="settings-hint">CLIP saves posts as files in a GitHub repo. you need a <strong>public</strong> repo and a token.</p>
+
+        <div class="settings-row col">
+          <span class="settings-label">repo <span class="settings-hint-inline">e.g. alice/clip-app</span></span>
+          <input type="text" id="gh-repo" class="settings-input" placeholder="username/repo-name"
+            autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false"/>
+        </div>
+        <div class="settings-row col">
+          <span class="settings-label">personal access token <span class="settings-hint-inline">needs "repo" scope</span></span>
+          <input type="password" id="gh-token" class="settings-input" placeholder="ghp_…"/>
+        </div>
+        <div class="settings-row">
+          <span class="settings-value small" id="gh-status">not connected</span>
+          <button class="btn-sm" onclick="saveGitHubConfig()">save &amp; test</button>
+        </div>
+        <p class="settings-hint">
+          <a href="https://github.com/settings/tokens/new?scopes=repo&description=CLIP+app"
+            target="_blank" class="settings-link">create a github token →</a>
+          &nbsp;·&nbsp;
+          <a href="https://github.com/new" target="_blank" class="settings-link">create a repo →</a>
+        </p>
+
+        <div class="settings-divider"></div>
+        <div class="settings-section-title">playback</div>
+        <div class="settings-row">
+          <span class="settings-label">playback speed</span>
+          <select class="settings-select" id="settings-speed">
+            <option value="0.75">0.75×</option>
+            <option value="1" selected>1×</option>
+            <option value="1.25">1.25×</option>
+            <option value="1.5">1.5×</option>
+            <option value="2">2×</option>
+          </select>
+        </div>
+        <div class="settings-row">
+          <span class="settings-label">voice commands</span>
+          <label class="toggle">
+            <input type="checkbox" id="settings-voice" checked/>
+            <span class="toggle-track"></span>
+          </label>
+        </div>
+        <div class="settings-divider"></div>
+        <button class="btn-danger" onclick="signOut()">sign out</button>
+      </div>
+    </div>
+
+    <nav class="bottom-nav">
+      <button class="nav-btn active" onclick="switchTab('feed', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        <span>feed</span>
+      </button>
+      <button class="nav-btn" onclick="switchTab('posts', this); MyPosts.load()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 19V6l12-3v13M9 19c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2zm12-3c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2z"/>
+        </svg>
+        <span>my clips</span>
+      </button>
+      <button class="nav-btn" onclick="switchTab('settings', this)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+        </svg>
+        <span>settings</span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- COMMENTS OVERLAY -->
+  <div id="comments-overlay" class="overlay hidden">
+    <div class="overlay-sheet">
+      <div class="overlay-header">
+        <span class="overlay-title" id="comments-post-title">comments</span>
+        <button class="overlay-close" onclick="document.getElementById('comments-overlay').classList.add('hidden')">✕</button>
+      </div>
+      <div class="comments-list" id="comments-list">
+        <div class="comments-loading">loading…</div>
+      </div>
+      <div class="comment-compose">
+        <input type="text" id="comment-input" class="settings-input"
+          placeholder="add a comment…" maxlength="200"/>
+        <button class="btn-sm accent" id="comment-submit">post</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="github.js"></script>
+  <script src="recorder.js"></script>
+  <script src="feed.js"></script>
+  <script src="myposts.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
