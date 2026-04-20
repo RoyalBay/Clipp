@@ -1207,7 +1207,6 @@ async function postClip() {
 
   // Insert clip row
   const { error: dbErr } = await sb.from('clips').insert({
-    id:         clipId,
     user_id:    currentUser.id,
     username:   currentUser.username,
     title:      cleanTitle,
