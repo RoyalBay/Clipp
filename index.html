@@ -702,6 +702,10 @@ kbd {
 //   Replace the two values below with your project's.
 //   Dashboard → Settings → API
 // ══════════════════════════════════════════════════════
+// ── Supabase credentials ─────────────────────────────
+// These are safe to leave in client-side code.
+// The anon key only allows what your Row Level Security
+// (RLS) policies permit. See SETUP.md for table schemas.
 const SUPABASE_URL = 'https://uyxhlsydoyakjikmalmu.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InV5eGhsc3lkb3lha2ppa21hbG11Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY2NzM1NTYsImV4cCI6MjA5MjI0OTU1Nn0.iUN81VtjDw3JedUer2BokylZvZX-F8E6H6-p9YqC394';
 // ══════════════════════════════════════════════════════
@@ -724,12 +728,24 @@ let currentCommentClipId = null;
 
 // ── Init ──────────────────────────────────────────────
 window.addEventListener('DOMContentLoaded', () => {
+  // Attach username input listener now that DOM is ready
+  const usernameInput = document.getElementById('username-input');
+  if (usernameInput) usernameInput.addEventListener('input', debounce(validateUsername, 350));
+
   const saved = localStorage.getItem('clipp_user');
   if (saved) {
-    currentUser = JSON.parse(saved);
-    enterApp();
+    try {
+      currentUser = JSON.parse(saved);
+      enterApp();
+      // Deep link: "Hey Siri, Clipp it" opens URL#record
+      if (location.hash === '#record') {
+        history.replaceState(null, '', location.pathname);
+        setTimeout(openRecord, 300);
+      }
+    } catch(e) {
+      localStorage.removeItem('clipp_user');
+    }
   }
-  if (location.hash === '#record') openRecord();
 });
 
 // ── Screen navigation ─────────────────────────────────
@@ -752,10 +768,11 @@ function enterApp() {
 }
 
 // ── Username validation ───────────────────────────────
-const usernameInput = document.getElementById('username-input');
-usernameInput.addEventListener('input', debounce(validateUsername, 350));
+// Note: listener is attached in DOMContentLoaded to ensure element exists
 
 async function validateUsername() {
+  const usernameInput = document.getElementById('username-input');
+  if (!usernameInput) return;
   const val  = usernameInput.value.trim().toLowerCase();
   const wrap = document.getElementById('username-wrap');
   const msg  = document.getElementById('username-msg');
@@ -768,6 +785,7 @@ async function validateUsername() {
   wrap.classList.remove('valid','error');
   stat.textContent = '';
   prev.classList.remove('visible');
+  msg.className = 'validation-msg';
 
   if (!val) { msg.textContent=''; return; }
   if (!/^[a-z0-9_]+$/.test(val)) {
@@ -784,7 +802,7 @@ async function validateUsername() {
   }
 
   wrap.classList.add('valid'); stat.textContent='✓';
-  msg.classList.add('ok'); msg.textContent='available';
+  msg.className = 'validation-msg ok'; msg.textContent='available';
   const uid = 'u_' + Math.random().toString(36).slice(2,8);
   disp.textContent = uid; prev.classList.add('visible');
   btn.disabled = false;
@@ -792,7 +810,8 @@ async function validateUsername() {
 }
 
 async function createAccount() {
-  const username = usernameInput.value.trim().toLowerCase();
+  const usernameInput = document.getElementById('username-input');
+  const username = usernameInput ? usernameInput.value.trim().toLowerCase() : '';
   const uid      = document.getElementById('create-btn').dataset.uid;
   if (!uid || !username) return;
 
@@ -1074,9 +1093,13 @@ function openRecord() {
 function closeRecord() {
   if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
   stopTimer(); stopWaveAnim();
+  recordingBlob = null;
+  const titleEl = document.getElementById('rec-title');
+  if (titleEl) titleEl.value = '';
   setRecState('ready');
+  // screen-app uses display:flex not the opacity system, so handle it specially
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active','exit'));
   document.getElementById('screen-app').classList.add('active');
-  document.getElementById('screen-record').classList.remove('active');
 }
 
 function setRecState(state) {
