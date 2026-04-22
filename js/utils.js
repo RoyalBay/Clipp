@@ -39,3 +39,27 @@ async function hashPassword(password) {
   const hashArray = Array.from(new Uint8Array(hashBuffer));
   return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 }
+
+// Detect best supported recording MIME type
+function getRecordingMimeType() {
+  const types = [
+    'audio/webm;codecs=opus',
+    'audio/webm',
+    'audio/mp4',
+    'audio/ogg;codecs=opus',
+    'audio/ogg',
+    ''
+  ];
+  for (const type of types) {
+    if (type && MediaRecorder.isTypeSupported(type)) return type;
+  }
+  return ''; // Let browser pick default
+}
+
+// Unlock audio playback on iOS (must be called from user gesture)
+function unlockAudioOnMobile() {
+  const silentAudio = new Audio();
+  silentAudio.src = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEARKwAAIhYAQACABAAZGF0YQAAAAA=';
+  silentAudio.volume = 0;
+  silentAudio.play().then(() => silentAudio.pause()).catch(() => {});
+}

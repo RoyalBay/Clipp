@@ -26,6 +26,10 @@ async function playAudio(clipId, audioPath, btn) {
     const audio = new Audio(data.publicUrl);
     audio._clipId = clipId;
     audio.playbackRate = playbackSpeed;
+    audio.preload = 'auto';
+    audio.crossOrigin = 'anonymous';
+    // iOS compatibility
+    audio.setAttribute('playsinline', '');
 
     audio.addEventListener('timeupdate', () => {
       const pct = (audio.currentTime / audio.duration) * 100 || 0;

@@ -141,3 +141,49 @@ function togglePasswordVisibility(btn) {
     svg.innerHTML = '<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="1.5" fill="none"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5" fill="none"/>';
   }
 }
+
+// ── Change password ──
+async function changePassword() {
+  if (!currentUser) return;
+  const currentPw = document.getElementById('current-password').value;
+  const newPw     = document.getElementById('new-password').value;
+  const msg       = document.getElementById('password-change-msg');
+
+  if (!currentPw || !newPw) {
+    msg.textContent = 'fill in both fields';
+    msg.className = 'validation-msg';
+    return;
+  }
+  if (newPw.length < 6) {
+    msg.textContent = 'new password must be at least 6 characters';
+    msg.className = 'validation-msg';
+    return;
+  }
+
+  // Verify current password
+  const { data } = await sb.from('users').select('password_hash').eq('id', currentUser.id).maybeSingle();
+  if (data && data.password_hash) {
+    const currentHash = await hashPassword(currentPw);
+    if (currentHash !== data.password_hash) {
+      msg.textContent = 'current password is incorrect';
+      msg.className = 'validation-msg';
+      return;
+    }
+  }
+
+  // Update password
+  const newHash = await hashPassword(newPw);
+  const { error } = await sb.from('users').update({ password_hash: newHash }).eq('id', currentUser.id);
+  if (error) {
+    msg.textContent = 'error: ' + error.message;
+    msg.className = 'validation-msg';
+    return;
+  }
+
+  msg.textContent = 'password updated ✓';
+  msg.className = 'validation-msg ok';
+  document.getElementById('current-password').value = '';
+  document.getElementById('new-password').value = '';
+  currentUser.password_hash = newHash;
+  localStorage.setItem('clipp_user', JSON.stringify(currentUser));
+}

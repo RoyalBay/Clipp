@@ -77,16 +77,23 @@ async function startRecording() {
     recSeconds = 0;
 
     const ctx      = new AudioContext();
+    // Resume AudioContext (required on iOS after user gesture)
+    if (ctx.state === 'suspended') await ctx.resume();
     const source   = ctx.createMediaStreamSource(stream);
     const analyser = ctx.createAnalyser();
     analyser.fftSize = 256;
     source.connect(analyser);
     activeAnalyser = analyser;
 
-    mediaRecorder = new MediaRecorder(stream);
+    // Detect supported audio format (iOS doesn't support webm)
+    const mimeType = getRecordingMimeType();
+    const recOptions = mimeType ? { mimeType } : {};
+
+    mediaRecorder = new MediaRecorder(stream, recOptions);
     mediaRecorder.addEventListener('dataavailable', e => audioChunks.push(e.data));
     mediaRecorder.addEventListener('stop', () => {
-      recordingBlob = new Blob(audioChunks, { type: 'audio/webm' });
+      const blobType = mediaRecorder.mimeType || mimeType || 'audio/webm';
+      recordingBlob = new Blob(audioChunks, { type: blobType });
       stream.getTracks().forEach(t => t.stop());
       setRecState('review');
     });
@@ -131,11 +138,13 @@ async function postClip() {
 
   const title     = document.getElementById('rec-title').value.trim() || 'untitled';
   const clipId    = 'c_' + Date.now() + '_' + Math.random().toString(36).slice(2, 6);
-  const audioPath = `${currentUser.id}/${clipId}.webm`;
+  const blobType  = recordingBlob.type || 'audio/webm';
+  const ext       = blobType.includes('mp4') ? 'mp4' : blobType.includes('m4a') ? 'm4a' : 'webm';
+  const audioPath = `${currentUser.id}/${clipId}.${ext}`;
 
   const { error: uploadErr } = await sb.storage
     .from('audio')
-    .upload(audioPath, recordingBlob, { contentType: 'audio/webm', upsert: true });
+    .upload(audioPath, recordingBlob, { contentType: blobType, upsert: true });
 
   if (uploadErr) {
     document.getElementById('rec-status').textContent = 'upload failed: ' + uploadErr.message;

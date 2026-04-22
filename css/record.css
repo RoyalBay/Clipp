@@ -5,7 +5,7 @@
 #screen-record {
   z-index: var(--z-overlay);
   background: var(--bg);
-  justify-content: flex-start;
+  justify-content: center;
   padding-top: 0;
 }
 

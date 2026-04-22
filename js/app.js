@@ -25,6 +25,10 @@ window.addEventListener('DOMContentLoaded', () => {
       localStorage.removeItem('clipp_user');
     }
   }
+
+  // Unlock audio on mobile (iOS requires user gesture before audio can play)
+  document.addEventListener('touchstart', unlockAudioOnMobile, { once: true });
+  document.addEventListener('click', unlockAudioOnMobile, { once: true });
 });
 
 // ── Screen navigation ──

@@ -233,6 +233,26 @@
             </div>
           </div>
 
+          <div class="settings-section">change password</div>
+          <div class="settings-row col">
+            <div class="input-wrap" style="width:100%;margin-bottom:8px">
+              <span class="input-prefix">🔒</span>
+              <input class="text-input" id="current-password" type="password" placeholder="current password" style="font-size:14px" autocomplete="current-password">
+              <button class="password-toggle" type="button" onclick="togglePasswordVisibility(this)">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg>
+              </button>
+            </div>
+            <div class="input-wrap" style="width:100%;margin-bottom:8px">
+              <span class="input-prefix">🔑</span>
+              <input class="text-input" id="new-password" type="password" placeholder="new password" style="font-size:14px" autocomplete="new-password">
+              <button class="password-toggle" type="button" onclick="togglePasswordVisibility(this)">
+                <svg viewBox="0 0 24 24" fill="none"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.5"/></svg>
+              </button>
+            </div>
+            <div class="validation-msg" id="password-change-msg"></div>
+            <button class="btn-sm accent" onclick="changePassword()" style="align-self:flex-start">update password</button>
+          </div>
+
           <div class="settings-section">account actions</div>
           <div class="settings-row">
             <span class="settings-label">sign out</span>
@@ -266,8 +286,8 @@
 <!-- ══════════════════════════════════════
      RECORD OVERLAY
 ══════════════════════════════════════ -->
-<section class="screen" id="screen-record">
-  <div class="rec-inner">
+<section class="screen" id="screen-record" style="justify-content:center">
+  <div class="rec-inner" style="justify-content:center;min-height:auto;padding-top:0">
     <div class="rec-header" style="width:100%">
       <button class="back-btn" onclick="closeRecord()">← back</button>
       <span class="rec-state-label state-ready" id="rec-state-label">● ready</span>
