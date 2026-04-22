@@ -1,0 +1,324 @@
+/* ═══════════════════════════════════════════
+   Clipp — TikTok-Style Feed
+   Full-viewport snap-scroll audio cards
+═══════════════════════════════════════════ */
+
+/* ── Feed container: full viewport snap scroll ── */
+.feed-container {
+  width: 100%;
+  height: 100%;
+  overflow-y: scroll;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Hide scrollbar for clean look */
+.feed-container::-webkit-scrollbar { display: none; }
+.feed-container { scrollbar-width: none; }
+
+/* ── Feed status messages ── */
+.feed-status {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-family: var(--font-mono);
+  font-size: 14px;
+  color: var(--text3);
+  text-align: center;
+  padding: 48px 24px;
+}
+.feed-status.error { color: var(--danger); }
+
+/* ═══ FEED CARD (one per viewport) ═══ */
+.feed-card {
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+}
+
+/* ── Background glow effect ── */
+.feed-card::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, var(--accent-glow2) 0%, transparent 70%);
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+.feed-card.playing::before { opacity: 1; }
+
+/* ── Center content: waveform + play ── */
+.feed-card__center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  z-index: 1;
+  padding: 0 60px;
+}
+
+/* ── Large waveform ── */
+.feed-card__waveform {
+  width: 280px;
+  height: 80px;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+.feed-card.playing .feed-card__waveform { opacity: 1; }
+.feed-card__waveform svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* ── Large play button ── */
+.feed-card__play {
+  width: 72px;
+  height: 72px;
+  border-radius: var(--radius-full);
+  background: var(--accent);
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-inv);
+  transition: background var(--dur-fast), transform 0.1s, box-shadow 0.3s;
+  box-shadow: var(--shadow-md);
+}
+.feed-card__play svg { width: 28px; height: 28px; }
+.feed-card__play:hover {
+  background: var(--accent2);
+  box-shadow: var(--shadow-glow);
+}
+.feed-card__play:active { transform: scale(0.92); }
+.feed-card.playing .feed-card__play {
+  background: rgba(255,255,255,0.1);
+  border: 2px solid var(--accent);
+  color: var(--accent);
+  box-shadow: var(--shadow-glow);
+}
+
+/* ── Progress bar (below play button) ── */
+.feed-card__progress {
+  width: 200px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.feed-card__progress-bar {
+  flex: 1;
+  height: 3px;
+  background: var(--border2);
+  border-radius: 2px;
+  overflow: hidden;
+  cursor: pointer;
+}
+.feed-card__progress-fill {
+  height: 100%;
+  background: var(--accent);
+  border-radius: 2px;
+  width: 0%;
+  transition: width 0.1s linear;
+}
+.feed-card__time {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text3);
+  flex-shrink: 0;
+  min-width: 36px;
+}
+
+/* ═══ TikTok-style overlays ═══ */
+
+/* ── Bottom-left info ── */
+.feed-card__info {
+  position: absolute;
+  bottom: 24px;
+  left: 20px;
+  right: 72px;
+  z-index: 2;
+}
+.feed-card__username {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--accent);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.feed-card__title {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  line-height: 1.3;
+  margin-bottom: 8px;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.feed-card__hashtags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+.feed-card__tag {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text2);
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 2px 8px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+.feed-card__time-ago {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text3);
+  margin-top: 8px;
+}
+
+/* ── Right-side action bar ── */
+.feed-card__actions {
+  position: absolute;
+  right: 16px;
+  bottom: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  z-index: 2;
+}
+.feed-action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text2);
+  transition: color var(--dur-fast), transform 0.15s;
+  padding: 0;
+}
+.feed-action svg { width: 26px; height: 26px; }
+.feed-action span {
+  font-family: var(--font-mono);
+  font-size: 11px;
+}
+.feed-action:hover { color: var(--text); }
+.feed-action:active { transform: scale(0.85); }
+.feed-action.liked { color: var(--danger); }
+.feed-action.liked svg { fill: currentColor; }
+
+/* ── Scroll indicator ── */
+.feed-card__scroll-hint {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  color: var(--text3);
+  font-size: 10px;
+  font-family: var(--font-mono);
+  opacity: 0.5;
+  pointer-events: none;
+}
+.feed-card:first-child .feed-card__scroll-hint { opacity: 1; }
+.feed-card__scroll-hint svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* ═══ MY CLIPS TAB ═══ */
+.mine-scroll {
+  flex: 1;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.mine-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px 8px;
+}
+.my-post-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border);
+  transition: background var(--dur-fast);
+}
+.my-post-row:hover { background: rgba(255,255,255,0.015); }
+.my-post-index {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--accent);
+  min-width: 28px;
+}
+.my-post-info {
+  flex: 1;
+  min-width: 0;
+}
+.my-post-title {
+  font-family: var(--font-display);
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.my-post-meta {
+  display: flex;
+  gap: 6px;
+  margin-top: 3px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text3);
+}
+.my-post-play {
+  width: 36px;
+  height: 36px;
+  border-radius: var(--radius-full);
+  background: var(--bg3);
+  border: 1px solid var(--border2);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text2);
+  flex-shrink: 0;
+  transition: border-color var(--dur-fast), color var(--dur-fast);
+}
+.my-post-play svg { width: 14px; height: 14px; }
+.my-post-play:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}

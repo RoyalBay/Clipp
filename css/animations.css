@@ -1,0 +1,112 @@
+/* ═══════════════════════════════════════════
+   Clipp — Animations & Keyframes
+═══════════════════════════════════════════ */
+
+/* ── Logo wave float ── */
+@keyframes waveFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-6px); }
+}
+.logo-mark { animation: waveFloat 3s ease-in-out infinite; }
+.siri-icon { animation: waveFloat 3s ease-in-out infinite; }
+
+/* ── Recording bar bounce ── */
+@keyframes barBounce {
+  0%, 100% { height: 6px;  background: var(--border2); }
+  50%      { height: 36px; background: var(--danger); }
+}
+.rec-waveform.animating .rec-bar {
+  animation: barBounce 0.6s ease-in-out infinite;
+}
+.rec-waveform.animating .rec-bar:nth-child(odd)  { animation-delay: 0s; }
+.rec-waveform.animating .rec-bar:nth-child(even) { animation-delay: 0.15s; }
+.rec-waveform.animating .rec-bar:nth-child(3n)   { animation-delay: 0.3s; }
+.rec-waveform.animating .rec-bar:nth-child(4n)   { animation-delay: 0.08s; }
+
+/* ── Record pulse ── */
+@keyframes recordPulse {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(224,85,85,0.3); }
+  50%      { box-shadow: 0 0 0 16px rgba(224,85,85,0); }
+}
+.recording-pulse {
+  border-color: var(--danger) !important;
+  animation: recordPulse 1.2s ease-in-out infinite;
+}
+
+/* ── Sheet slide up ── */
+@keyframes sheetUp {
+  from { transform: translateY(100%); }
+  to   { transform: translateY(0); }
+}
+.overlay-sheet { animation: sheetUp 0.3s var(--ease-out); }
+
+/* ── Fade up ── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Spinner ── */
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+.spin { animation: spin 1s linear infinite; }
+
+/* ── Feed card enter ── */
+@keyframes cardEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ── Play button pulse (when playing) ── */
+@keyframes playPulse {
+  0%, 100% { box-shadow: 0 0 0 0 var(--accent-glow); }
+  50%      { box-shadow: 0 0 0 12px transparent; }
+}
+.feed-card.playing .feed-card__play {
+  animation: playPulse 2s ease-in-out infinite;
+}
+
+/* ── Waveform shimmer ── */
+@keyframes waveShimmer {
+  0%   { opacity: 0.5; }
+  50%  { opacity: 1; }
+  100% { opacity: 0.5; }
+}
+
+/* ── Like pop ── */
+@keyframes likePop {
+  0%   { transform: scale(1); }
+  30%  { transform: scale(1.3); }
+  100% { transform: scale(1); }
+}
+.feed-action.liked {
+  animation: likePop 0.3s var(--ease-spring);
+}
+
+/* ── Scroll hint bounce ── */
+@keyframes scrollBounce {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%      { transform: translateX(-50%) translateY(-4px); }
+}
+.feed-card:first-child .feed-card__scroll-hint {
+  animation: scrollBounce 1.5s ease-in-out infinite;
+}
+
+/* ── Skeleton loading shimmer ── */
+@keyframes skeleton {
+  0%   { background-position: -200px 0; }
+  100% { background-position: calc(200px + 100%) 0; }
+}
+.skeleton {
+  background: linear-gradient(90deg, var(--bg3) 25%, var(--bg4) 50%, var(--bg3) 75%);
+  background-size: 200px 100%;
+  animation: skeleton 1.5s ease-in-out infinite;
+  border-radius: var(--radius-sm);
+}

@@ -1,0 +1,125 @@
+/* ═══════════════════════════════════════════
+   Clipp — Record Overlay Styles
+═══════════════════════════════════════════ */
+
+#screen-record {
+  z-index: var(--z-overlay);
+  background: var(--bg);
+  justify-content: flex-start;
+  padding-top: 0;
+}
+
+.rec-inner {
+  width: 100%;
+  max-width: 420px;
+  padding: 28px 28px 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+}
+
+.rec-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.rec-title-label {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.rec-state-label {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text3);
+}
+.state-ready     { color: var(--text3); }
+.state-recording { color: var(--danger); }
+.state-review    { color: var(--accent); }
+.state-posting   { color: var(--text2); }
+
+.rec-timer {
+  font-family: var(--font-display);
+  font-size: 64px;
+  font-weight: 800;
+  text-align: center;
+  letter-spacing: -3px;
+  color: var(--text);
+  line-height: 1;
+}
+
+/* ── Waveform bars ── */
+.rec-waveform {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3px;
+  height: 48px;
+}
+.rec-bar {
+  width: 4px;
+  border-radius: 2px;
+  background: var(--border2);
+  height: 8px;
+  transition: height 0.1s ease;
+}
+
+/* ── Big record button ── */
+.rec-big-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 88px;
+  height: 88px;
+  border-radius: var(--radius-full);
+  background: var(--bg3);
+  border: 2px solid var(--border2);
+  cursor: pointer;
+  margin: 20px auto;
+  transition: background var(--dur-fast), border-color var(--dur-fast), transform 0.1s;
+  color: var(--text);
+}
+.rec-big-btn svg { width: 32px; height: 32px; }
+.rec-big-btn:hover {
+  background: var(--bg2);
+  border-color: var(--accent);
+}
+.rec-big-btn:active { transform: scale(0.95); }
+
+/* ── Review actions ── */
+.rec-review-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 16px;
+  width: 100%;
+}
+
+.rec-status-msg {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  text-align: center;
+  min-height: 20px;
+  padding: 4px 0;
+}
+.status-info    { color: var(--text2); }
+.status-error   { color: var(--danger); }
+.status-success { color: var(--success); }
+
+.rec-kb-hint {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text3);
+  text-align: center;
+  margin-top: 8px;
+}
+
+.posting-spinner {
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+}
+.posting-spinner svg { width: 40px; height: 40px; }

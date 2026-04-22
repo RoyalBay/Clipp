@@ -1,0 +1,23 @@
+{
+  "name": "clipp",
+  "version": "1.0.0",
+  "description": "Audio-first social platform — record, share, and discover short audio clips",
+  "main": "index.html",
+  "scripts": {
+    "dev": "npx live-server --port=3000 --no-browser",
+    "start": "npx live-server --port=3000"
+  },
+  "keywords": [
+    "audio",
+    "social",
+    "clips",
+    "recording",
+    "supabase"
+  ],
+  "author": "Clipp Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kyang/Clipp"
+  }
+}
